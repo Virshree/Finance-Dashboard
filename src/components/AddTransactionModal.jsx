@@ -61,7 +61,7 @@ function AddTransactionModal({ isOpen, onClose, onSave, editData }) {
         <input
           type="date"
           value={form.date}
-          className="border m-2 p-2 rounded"
+          className="border m-2 p-2 rounded cursor-pointer"
           onChange={(e) =>
             setForm({ ...form, date: e.target.value })
           }
@@ -75,7 +75,7 @@ function AddTransactionModal({ isOpen, onClose, onSave, editData }) {
           type="number"
           placeholder="Amount"
           value={form.amount}
-          className="border m-2 p-2 rounded"
+          className="border m-2 p-2 rounded cursor-pointer"
           onChange={(e) =>
             setForm({ ...form, amount: e.target.value })
           }
@@ -89,7 +89,7 @@ function AddTransactionModal({ isOpen, onClose, onSave, editData }) {
           type="text"
           placeholder="Category"
           value={form.category}
-          className="border m-2 p-2 rounded"
+          className="border m-2 p-2 rounded cursor-pointer"
           onChange={(e) =>
             setForm({ ...form, category: e.target.value })
           }
@@ -101,7 +101,7 @@ function AddTransactionModal({ isOpen, onClose, onSave, editData }) {
         {/* Type */}
         <select
           value={form.type}
-          className="border m-2 p-2 rounded"
+          className="border m-2 p-2 rounded cursor-pointer"
           onChange={(e) =>
             setForm({ ...form, type: e.target.value })
           }
@@ -114,14 +114,14 @@ function AddTransactionModal({ isOpen, onClose, onSave, editData }) {
         <div className="flex gap-2 mt-3">
           <button
             onClick={handleSave}
-            className="bg-green-600 text-white rounded-xl p-2 flex-1"
+            className="bg-green-600 text-white rounded-xl p-2 flex-1 cursor-pointer"
           >
             Save
           </button>
 
           <button
             onClick={onClose}
-            className="bg-gray-300 rounded-xl p-2 flex-1"
+            className="bg-gray-300 rounded-xl p-2 flex-1 cursor-pointer"
           >
             Cancel
           </button>

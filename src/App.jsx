@@ -44,11 +44,7 @@ function App() {
   }, []);
   return (
     <div
-      className={
-        dark
-          ? "bg-gray-900 text-white min-h-screen p-6"
-          : "bg-gray-100 text-black min-h-screen p-6"
-      }
+    className={`p-6 min-h-screen ${dark ? "bg-gray-900 text-white" : "bg-gray-100 text-black"}`}
     >
       {/* 🔥 NAVBAR */}
       <Navbar
@@ -72,11 +68,11 @@ function App() {
           </motion.div>
           {/* <SummaryCards transactions={transactions} /> */}
 
-          <div className="grid md:grid-cols-3 gap-4 mt-6">
+          <div className="grid md:grid-cols-3 md:flex justify-end   gap-4 mt-6">
             {role === "admin" && (
               <button
                 onClick={() => setModalOpen(true)}
-                className="bg-blue-500 hover:bg-blue-600 text-white p-4 rounded shadow"
+                className="bg-blue-500 hover:bg-blue-600 text-white p-4 rounded shadow cursor-pointer"
               >
                 + Add Transaction
               </button>

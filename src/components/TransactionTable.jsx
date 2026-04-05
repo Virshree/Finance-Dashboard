@@ -74,7 +74,7 @@ function TransactionTable({ transactions, role, onEdit, onDelete, dark }) {
     link.click();
   }
   return (
-    <div className="h-[400px] w-full">
+    <div className="h-screen">
       <div
         className={`mt-6 p-4 rounded shadow ${
           dark ? "bg-gray-800 text-white" : "bg-white text-black"
