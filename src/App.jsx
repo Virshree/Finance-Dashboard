@@ -1,0 +1,132 @@
+import { useState, useEffect } from "react";
+import { initialTransactions } from "./data/data";
+import SummaryCards from "./components/SummaryCards";
+import TransactionTable from "./components/TransactionTable";
+import CategoryPieChart from "./components/CategoryPieChart";
+import AddTransactionModal from "./components/AddTransactionModal";
+import Insights from "./components/Insights";
+import Navbar from "./components/Navbar";
+import MonthlyTrends from "./components/MonthlyTrends";
+import { motion } from "framer-motion";
+
+function App() {
+  const [transactions, setTransactions] = useState(initialTransactions);
+  const [role, setRole] = useState("admin");
+  const [modalOpen, setModalOpen] = useState(false);
+  const [editItem, setEditItem] = useState(null);
+  const [activeTab, setActiveTab] = useState("dashboard");
+  const [dark, setDark] = useState(false);
+
+  function handleSave(data) {
+    if (editItem) {
+      setTransactions((prev) =>
+        prev.map((t) => (t.id === editItem.id ? { ...data, id: t.id } : t))
+      );
+    } else {
+      setTransactions((prev) => [...prev, { ...data, id: Date.now() }]);
+    }
+    setEditItem(null);
+    setModalOpen(false); // ✅ close modal after save
+  }
+
+  function handleDelete(id) {
+    setTransactions((prev) => prev.filter((t) => t.id !== id));
+  }
+
+  useEffect(() => {
+    localStorage.setItem("transactions", JSON.stringify(transactions));
+  }, [transactions]);
+  useEffect(() => {
+    const saved = localStorage.getItem("transactions");
+    if (saved) {
+      setTransactions(JSON.parse(saved));
+    }
+  }, []);
+  return (
+    <div
+      className={
+        dark
+          ? "bg-gray-900 text-white min-h-screen p-6"
+          : "bg-gray-100 text-black min-h-screen p-6"
+      }
+    >
+      {/* 🔥 NAVBAR */}
+      <Navbar
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        dark={dark}
+        setDark={setDark}
+        role={role}
+        setRole={setRole}
+      />
+
+      {/* ================= DASHBOARD ================= */}
+      {activeTab === "dashboard" && (
+        <>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            <SummaryCards transactions={transactions} />
+          </motion.div>
+          {/* <SummaryCards transactions={transactions} /> */}
+
+          <div className="grid md:grid-cols-3 gap-4 mt-6">
+            {role === "admin" && (
+              <button
+                onClick={() => setModalOpen(true)}
+                className="bg-blue-500 hover:bg-blue-600 text-white p-4 rounded shadow"
+              >
+                + Add Transaction
+              </button>
+            )}
+          </div>
+
+          <div className="mt-6">
+            <TransactionTable
+              transactions={transactions}
+              role={role}
+              onEdit={(t) => {
+                setEditItem(t);
+                setModalOpen(true);
+              }}
+              onDelete={handleDelete}
+              dark={dark}
+            />
+          </div>
+        </>
+      )}
+
+      {/* ================= ANALYTICS ================= */}
+      {activeTab === "analytics" && (
+        <div className="mt-6">
+          <h2 className="text-xl  font-semibold mb-4">Analytics</h2>
+          <CategoryPieChart transactions={transactions} dark={dark} />
+          <Insights transactions={transactions} dark={dark} />
+        </div>
+      )}
+
+      {/* ================= TRENDS ================= */}
+      {activeTab === "trends" && (
+        <div className="mt-6">
+          <h2 className="text-xl font-semibold mb-4">Trends</h2>
+          <MonthlyTrends transactions={transactions} dark={dark} />
+        </div>
+      )}
+
+      {/* 🔥 MODAL (VERY IMPORTANT) */}
+      <AddTransactionModal
+        isOpen={modalOpen}
+        onClose={() => {
+          setModalOpen(false);
+          setEditItem(null);
+        }}
+        onSave={handleSave}
+        editData={editItem}
+      />
+    </div>
+  );
+}
+
+export default App;
