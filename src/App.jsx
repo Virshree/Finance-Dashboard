@@ -42,6 +42,7 @@ function App() {
       setTransactions(JSON.parse(saved));
     }
   }, []);
+
   return (
     <div
     className={`p-6 min-h-screen ${dark ? "bg-gray-900 text-white" : "bg-gray-100 text-black"}`}
@@ -66,7 +67,7 @@ function App() {
           >
             <SummaryCards transactions={transactions} />
           </motion.div>
-          {/* <SummaryCards transactions={transactions} /> */}
+         
 
           <div className="grid md:grid-cols-3 md:flex justify-end   gap-4 mt-6">
             {role === "admin" && (
