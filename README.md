@@ -358,6 +358,12 @@ Each transaction follows a consistent format:
 
 ![Charts](./screenshots/trendsdark1.png)
 
+### Role - Viewer
+
+![Dashboard](./screenshots/viewerdark.png)
+
+![Dashboard](./screenshots/viewerlight.png)
+
 ### Mobile View
 
 ![Dashboard](./screenshots/mobile1.png)
