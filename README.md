@@ -333,7 +333,38 @@ Each transaction follows a consistent format:
 # 📸 Screenshots
 
 
+### Dashboard
+![Dashboard](./screenshots/dark.png)
 
+![Dashboard](./screenshots/light.png)
+
+![Dashboard](./screenshots/add.png)
+
+![Dashboard](./screenshots/adddetail.png)
+
+![Dashboard](./screenshots/edit.png)
+
+### Analytics Page
+![Analytics](./screenshots/darkanalytics.png)
+
+![Analytics](./screenshots/darkanalytics1.png)
+
+![Analytics](./screenshots/analyticslight.png)
+
+### Charts View
+![Charts](./screenshots/trendsdark.png)
+
+![Charts](./screenshots/trendslight.png)
+
+![Charts](./screenshots/trendsdark1.png)
+
+### Mobile View
+
+![Dashboard](./screenshots/mobile1.png)
+
+![Dashboard](./screenshots/mobile2.png)
+
+![Dashboard](./screenshots/mobile3.png)
 
 ## 💡 Author
 
