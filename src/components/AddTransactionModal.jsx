@@ -5,6 +5,7 @@ function AddTransactionModal({ isOpen, onClose, onSave, editData }) {
     date: "",
     amount: "",
     category: "",
+    transaction:"",
     type: "expense",
   });
 
@@ -19,6 +20,7 @@ function AddTransactionModal({ isOpen, onClose, onSave, editData }) {
     let newErrors = {};
 
     if (!form.date) newErrors.date = "Date is required";
+    if (!form.transaction) newErrors.date = "Transaction is required";
     if (!form.amount) newErrors.amount = "Amount is required";
     else if (Number(form.amount) <= 0)
       newErrors.amount = "Amount must be greater than 0";
@@ -46,8 +48,22 @@ function AddTransactionModal({ isOpen, onClose, onSave, editData }) {
     setErrors({});
     onClose();
   }
-
+  useEffect(() => {
+    if (editData) {
+      setForm(editData);   // editing
+    } else {
+      setForm({
+        title: "",
+        category: "",
+        transaction:"",
+        amount: "",
+        type: "expense",
+        date: "",
+      });                  // adding new → reset form
+    }
+  }, [editData]);
   if (!isOpen) return null;
+
 
   return (
     <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
@@ -73,7 +89,7 @@ function AddTransactionModal({ isOpen, onClose, onSave, editData }) {
         {/* Amount */}
         <input
           type="number"
-          placeholder="Amount"
+          placeholder="0.00"
           value={form.amount}
           className="border m-2 p-2 rounded cursor-pointer"
           onChange={(e) =>
@@ -84,10 +100,25 @@ function AddTransactionModal({ isOpen, onClose, onSave, editData }) {
           <span className="text-red-500 text-sm ml-2">{errors.amount}</span>
         )}
 
+         {/* Transaction */}
+         <input
+          type="text"
+          placeholder="eg.Apple Store"
+          value={form.transaction}
+          className="border m-2 p-2 rounded cursor-pointer"
+          onChange={(e) =>
+            setForm({ ...form, transaction: e.target.value })
+          }
+        />
+        {errors.transaction && (
+          <span className="text-red-500 text-sm ml-2">{errors.transaction}</span>
+        )}
+
+
         {/* Category */}
         <input
           type="text"
-          placeholder="Category"
+          placeholder="eg.Electronics"
           value={form.category}
           className="border m-2 p-2 rounded cursor-pointer"
           onChange={(e) =>

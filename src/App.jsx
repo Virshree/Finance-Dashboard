@@ -71,7 +71,7 @@ function App() {
           <div className="grid md:grid-cols-3 md:flex justify-end   gap-4 mt-6">
             {role === "admin" && (
               <button
-                onClick={() => setModalOpen(true)}
+                onClick={() => {setEditItem(null);setModalOpen(true)}}
                 className="bg-blue-500 hover:bg-blue-600 text-white p-4 rounded shadow cursor-pointer"
               >
                 + Add Transaction

@@ -17,17 +17,17 @@ function Navbar({ activeTab, setActiveTab, dark, setDark, role, setRole }) {
       <h1 className="text-2xl font-bold">Finance Dashboard</h1>
 
       {/* Tabs */}
-      <div className="flex gap-3">
+      <div className="flex gap-3 overflow-x-auto no-scrollbar">
         {tabs.map((tab) => (
           <button
             key={tab.name}
             onClick={() => setActiveTab(tab.name)}
-            className={`flex items-center gap-2 capitalize px-4 py-2 rounded-lg cursor-pointer transition-all duration-300 ${
+            className={`flex items-center gap-2  whitespace-nowrap capitalize px-4 py-2 rounded-lg cursor-pointer transition-all duration-300 ${
               activeTab === tab.name
                 ? "bg-blue-500 text-white shadow-md"
                 : "bg-gray-200 dark:bg-gray-700 dark:text-white text-black hover:bg-gray-300 dark:hover:bg-gray-600"
             }`}
-          >
+          > 
             {tab.icon}
             {tab.name}
           </button>
