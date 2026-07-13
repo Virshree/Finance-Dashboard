@@ -1,0 +1,45 @@
+{
+  "transactions": [
+    {
+      "id": "1",
+      "transaction": "Salary",
+      "category": "Income",
+      "amount": 50000,
+      "date": "2026-07-13",
+      "type": "income"
+    },
+    {
+      "id": "2",
+      "transaction": "Food",
+      "category": "Food",
+      "amount": 500,
+      "date": "2026-07-12",
+      "type": "expense"
+    },
+    {
+      "transaction": "car",
+      "category": "car",
+      "amount": 200,
+      "date": "2026-07-11",
+      "type": "expense",
+      "id": "DgJjH_CVaSQ"
+    },
+    {
+      "transaction": "travel",
+      "category": "bike",
+      "amount": 200,
+      "date": "2026-07-03",
+      "type": "expense",
+      "id": "ctNq0esgK_o"
+    },
+    {
+      "transaction": "shop",
+      "category": "rent",
+      "amount": 2000,
+      "date": "2026-07-04",
+      "type": "income",
+      "id": "M7ZJUMosnrc"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

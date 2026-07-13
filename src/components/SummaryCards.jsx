@@ -13,21 +13,17 @@ function SummaryCards({ transactions }) {
 
   const balance = income - expense;
 
-  const format = (num) =>
-    new Intl.NumberFormat("en-IN").format(num);
+  const format = (num) => new Intl.NumberFormat("en-IN").format(num);
 
   return (
     <div className="grid md:grid-cols-3 gap-6">
-      
       {/* BALANCE */}
       <div className=" cursor-pointer bg-gradient-to-br from-indigo-500 to-purple-600 text-white p-6 rounded-2xl shadow-xl hover:scale-105 hover:shadow-2xl transition-all duration-300">
         <div className="flex items-center justify-between">
           <p className=" text-xl opacity-80">Total Balance</p>
           <FaWallet size={28} />
         </div>
-        <h2 className="text-3xl font-bold mt-4">
-          ₹{format(balance)}
-        </h2>
+        <h2 className="text-3xl font-bold mt-4">₹{format(balance)}</h2>
       </div>
 
       {/* INCOME */}
@@ -36,9 +32,7 @@ function SummaryCards({ transactions }) {
           <p className="text-xl opacity-80">Income</p>
           <IoArrowUpCircle size={30} />
         </div>
-        <h2 className="text-3xl font-bold mt-4">
-          ₹{format(income)}
-        </h2>
+        <h2 className="text-3xl font-bold mt-4">₹{format(income)}</h2>
       </div>
 
       {/* EXPENSE */}
@@ -47,11 +41,8 @@ function SummaryCards({ transactions }) {
           <p className="text-xl opacity-80">Expenses</p>
           <IoArrowDownCircle size={30} />
         </div>
-        <h2 className="text-3xl font-bold mt-4">
-          ₹{format(expense)}
-        </h2>
+        <h2 className="text-3xl font-bold mt-4">₹{format(expense)}</h2>
       </div>
-
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { initialTransactions } from "./data/data";
+
 import SummaryCards from "./components/SummaryCards";
 import TransactionTable from "./components/TransactionTable";
 import CategoryPieChart from "./components/CategoryPieChart";
@@ -8,31 +8,32 @@ import Insights from "./components/Insights";
 import Navbar from "./components/Navbar";
 import MonthlyTrends from "./components/MonthlyTrends";
 import { motion } from "framer-motion";
+import { getTransactions } from "./api/transactionApi";
 
 function App() {
-  const [transactions, setTransactions] = useState(initialTransactions);
+  const [transactions, setTransactions] = useState([]);
   const [role, setRole] = useState("admin");
   const [modalOpen, setModalOpen] = useState(false);
   const [editItem, setEditItem] = useState(null);
   const [activeTab, setActiveTab] = useState("dashboard");
   const [dark, setDark] = useState(false);
 
-  function handleSave(data) {
-    if (editItem) {
-      setTransactions((prev) =>
-        prev.map((t) => (t.id === editItem.id ? { ...data, id: t.id } : t))
-      );
-    } else {
-      setTransactions((prev) => [...prev, { ...data, id: Date.now() }]);
-    }
-    setEditItem(null);
-    setModalOpen(false); // ✅ close modal after save
-  }
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      const data = await getTransactions();
+
+      setTransactions(data);
+    };
+
+    fetchTransactions();
+  }, []);
 
   function handleDelete(id) {
     setTransactions((prev) => prev.filter((t) => t.id !== id));
   }
-
+  const handleAddTransaction = (newTransaction) => {
+    setTransactions((prev) => [...prev, newTransaction]);
+  };
   useEffect(() => {
     localStorage.setItem("transactions", JSON.stringify(transactions));
   }, [transactions]);
@@ -45,7 +46,9 @@ function App() {
 
   return (
     <div
-    className={`p-6 min-h-screen ${dark ? "bg-gray-900 text-white" : "bg-gray-100 text-black"}`}
+      className={`p-6 min-h-screen ${
+        dark ? "bg-gray-900 text-white" : "bg-gray-100 text-black"
+      }`}
     >
       {/* 🔥 NAVBAR */}
       <Navbar
@@ -67,12 +70,14 @@ function App() {
           >
             <SummaryCards transactions={transactions} />
           </motion.div>
-         
 
           <div className="grid md:grid-cols-3 md:flex justify-end   gap-4 mt-6">
             {role === "admin" && (
               <button
-                onClick={() => {setEditItem(null);setModalOpen(true)}}
+                onClick={() => {
+                  setEditItem(null);
+                  setModalOpen(true);
+                }}
                 className="bg-blue-500 hover:bg-blue-600 text-white p-4 rounded shadow cursor-pointer"
               >
                 + Add Transaction
@@ -119,7 +124,7 @@ function App() {
           setModalOpen(false);
           setEditItem(null);
         }}
-        onSave={handleSave}
+        onSave={handleAddTransaction}
         editData={editItem}
       />
     </div>

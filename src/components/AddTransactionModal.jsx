@@ -1,158 +1,155 @@
 import React, { useState, useEffect } from "react";
+import { addTransaction } from "../api/transactionApi";
 
 function AddTransactionModal({ isOpen, onClose, onSave, editData }) {
-  const [form, setForm] = useState({
+  const initialForm = {
     date: "",
     amount: "",
     category: "",
-    transaction:"",
+    transaction: "",
     type: "expense",
-  });
+  };
 
+  const [form, setForm] = useState(initialForm);
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    if (editData) setForm(editData);
+    if (editData) {
+      setForm(editData);
+    } else {
+      setForm(initialForm);
+    }
   }, [editData]);
 
-  // 🔥 Validation function
   function validate() {
     let newErrors = {};
 
     if (!form.date) newErrors.date = "Date is required";
-    if (!form.transaction) newErrors.date = "Transaction is required";
+
+    if (!form.transaction.trim())
+      newErrors.transaction = "Transaction is required";
+
     if (!form.amount) newErrors.amount = "Amount is required";
     else if (Number(form.amount) <= 0)
       newErrors.amount = "Amount must be greater than 0";
 
-    if (!form.category.trim())
-      newErrors.category = "Category is required";
+    if (!form.category.trim()) newErrors.category = "Category is required";
 
     return newErrors;
   }
 
-  function handleSave() {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
     const validationErrors = validate();
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
-      return; // ❌ stop save
+      return;
     }
 
-    onSave({
-      ...form,
+    const transactionData = {
+      transaction: form.transaction,
+      category: form.category,
       amount: Number(form.amount),
-      type: form.type.toLowerCase(),
-    });
+      date: form.date,
+      type: form.type,
+ 
+    };
 
-    setErrors({});
-    onClose();
-  }
-  useEffect(() => {
-    if (editData) {
-      setForm(editData);   // editing
-    } else {
-      setForm({
-        title: "",
-        category: "",
-        transaction:"",
-        amount: "",
-        type: "expense",
-        date: "",
-      });                  // adding new → reset form
+    try {
+      // POST JSON SERVER
+      const response = await addTransaction(transactionData);
+
+      console.log("Added:", response);
+
+      // update parent state
+      onSave(response);
+
+      setErrors({});
+      setForm(initialForm);
+
+      onClose();
+    } catch (error) {
+      console.log(error);
     }
-  }, [editData]);
-  if (!isOpen) return null;
+  };
 
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
-      <div className="bg-white text-black p-5 rounded-xl w-[320px] flex flex-col">
-        
+      <div className="bg-white text-black p-5 rounded-xl w-[320px]">
         <h2 className="font-bold mb-3">
           {editData ? "Edit Transaction" : "Add Transaction"}
         </h2>
 
-        {/* Date */}
         <input
           type="date"
           value={form.date}
-          className="border m-2 p-2 rounded cursor-pointer"
-          onChange={(e) =>
-            setForm({ ...form, date: e.target.value })
-          }
+          className="border m-2 p-2 rounded w-full"
+          onChange={(e) => setForm({ ...form, date: e.target.value })}
         />
-        {errors.date && (
-          <span className="text-red-500 text-sm ml-2">{errors.date}</span>
+
+        {errors.date && <p className="text-red-500 text-sm">{errors.date}</p>}
+
+        <input
+          type="text"
+          placeholder="Transaction name"
+          value={form.transaction}
+          className="border m-2 p-2 rounded w-full"
+          onChange={(e) => setForm({ ...form, transaction: e.target.value })}
+        />
+
+        {errors.transaction && (
+          <p className="text-red-500 text-sm">{errors.transaction}</p>
         )}
 
-        {/* Amount */}
         <input
           type="number"
-          placeholder="0.00"
+          placeholder="Amount"
           value={form.amount}
-          className="border m-2 p-2 rounded cursor-pointer"
-          onChange={(e) =>
-            setForm({ ...form, amount: e.target.value })
-          }
+          className="border m-2 p-2 rounded w-full"
+          onChange={(e) => setForm({ ...form, amount: e.target.value })}
         />
+
         {errors.amount && (
-          <span className="text-red-500 text-sm ml-2">{errors.amount}</span>
+          <p className="text-red-500 text-sm">{errors.amount}</p>
         )}
 
-         {/* Transaction */}
-         <input
-          type="text"
-          placeholder="eg.Apple Store"
-          value={form.transaction}
-          className="border m-2 p-2 rounded cursor-pointer"
-          onChange={(e) =>
-            setForm({ ...form, transaction: e.target.value })
-          }
-        />
-        {errors.transaction && (
-          <span className="text-red-500 text-sm ml-2">{errors.transaction}</span>
-        )}
-
-
-        {/* Category */}
         <input
           type="text"
-          placeholder="eg.Electronics"
+          placeholder="Category"
           value={form.category}
-          className="border m-2 p-2 rounded cursor-pointer"
-          onChange={(e) =>
-            setForm({ ...form, category: e.target.value })
-          }
+          className="border m-2 p-2 rounded w-full"
+          onChange={(e) => setForm({ ...form, category: e.target.value })}
         />
+
         {errors.category && (
-          <span className="text-red-500 text-sm ml-2">{errors.category}</span>
+          <p className="text-red-500 text-sm">{errors.category}</p>
         )}
 
-        {/* Type */}
         <select
           value={form.type}
-          className="border m-2 p-2 rounded cursor-pointer"
-          onChange={(e) =>
-            setForm({ ...form, type: e.target.value })
-          }
+          className="border m-2 p-2 rounded w-full"
+          onChange={(e) => setForm({ ...form, type: e.target.value })}
         >
           <option value="expense">Expense</option>
+
           <option value="income">Income</option>
         </select>
 
-        {/* Buttons */}
         <div className="flex gap-2 mt-3">
           <button
-            onClick={handleSave}
-            className="bg-green-600 text-white rounded-xl p-2 flex-1 cursor-pointer"
+            onClick={handleSubmit}
+            className="bg-green-600 text-white rounded-xl p-2 flex-1"
           >
             Save
           </button>
 
           <button
             onClick={onClose}
-            className="bg-gray-300 rounded-xl p-2 flex-1 cursor-pointer"
+            className="bg-gray-300 rounded-xl p-2 flex-1"
           >
             Cancel
           </button>

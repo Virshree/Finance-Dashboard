@@ -11,53 +11,29 @@ function TransactionTable({ transactions, onEdit, onDelete, dark }) {
             : "bg-white text-black border border-gray-200"
         }`}
       >
-        {/* 🔹 Header */}
-        <h2
-          className={`text-xl font-semibold mb-4 ${
-            dark ? "text-white" : "text-black"
-          }`}
-        >
-          Transactions
-        </h2>
+        <h2 className="text-xl font-semibold mb-4">Transactions</h2>
 
-        {/* 🔹 Table */}
         <div className="overflow-x-auto">
           <table
             className={`w-full min-w-[700px] text-sm ${
               dark ? "text-gray-300" : "text-gray-700"
             }`}
           >
-            {/* 🔹 Table Head */}
             <thead>
-              <tr
-                className={`border-b ${
-                  dark
-                    ? "border-gray-700 text-gray-400"
-                    : "border-gray-300 text-gray-600"
-                }`}
-              >
+              <tr className="border-b">
                 <th className="text-left py-3">Type</th>
                 <th className="text-left py-3">Transaction</th>
                 <th className="text-left py-3">Category</th>
                 <th className="text-left py-3">Date</th>
                 <th className="text-left py-3">Amount</th>
-                <th className="text-left py-3">Status</th>
+
                 <th className="text-left py-3">Actions</th>
               </tr>
             </thead>
 
-            {/* 🔹 Table Body */}
             <tbody>
               {transactions.map((t) => (
-                <tr
-                  key={t.id}
-                  className={`border-b transition ${
-                    dark
-                      ? "border-gray-800 hover:bg-gray-800"
-                      : "border-gray-200 hover:bg-gray-100"
-                  }`}
-                >
-                  {/* 🔹 Type */}
+                <tr key={t.id} className="border-b">
                   <td className="py-3">
                     <div
                       className={`w-8 h-8 flex items-center justify-center rounded-lg ${
@@ -70,61 +46,28 @@ function TransactionTable({ transactions, onEdit, onDelete, dark }) {
                     </div>
                   </td>
 
-                  {/* 🔹 Transaction Name */}
-                  <td
-                    className={`py-3 font-medium ${
-                      dark ? "text-white" : "text-black"
-                    }`}
-                  >
-                    {t.transaction}
-                  </td>
+                  <td className="py-3 font-medium">{t.transaction}</td>
 
-                  {/* 🔹 Category */}
                   <td className="py-3">
-                    <span
-                      className={`px-2 py-1 text-xs rounded-full ${
-                        dark
-                          ? "bg-gray-700 text-gray-300"
-                          : "bg-gray-200 text-gray-700"
-                      }`}
-                    >
-                      {t.category}
-                    </span>
+                    <span className="text-md">{t.category}</span>
                   </td>
 
-                  {/* 🔹 Date */}
                   <td className="py-3">{t.date}</td>
 
-                  {/* 🔹 Amount */}
                   <td
                     className={`py-3 font-semibold ${
-                      t.type === "income"
-                        ? "text-green-500"
-                        : "text-red-500"
+                      t.type === "income" ? "text-green-500" : "text-red-500"
                     }`}
                   >
                     {t.type === "income" ? "+" : "-"}₹{t.amount}
                   </td>
 
-                  {/* 🔹 Status */}
-                  <td className="py-3">
-                    <span
-                      className={`px-2 py-1 text-xs rounded-full ${
-                        dark
-                          ? "bg-green-900 text-green-400"
-                          : "bg-green-100 text-green-600"
-                      }`}
-                    >
-                      Successful
-                    </span>
-                  </td>
-
-                  {/* 🔹 Actions */}
                   <td className="py-3 flex gap-3">
                     <FaEdit
                       onClick={() => onEdit(t)}
                       className="cursor-pointer hover:text-blue-500"
                     />
+
                     <FaTrash
                       onClick={() => onDelete(t.id)}
                       className="cursor-pointer hover:text-red-500"
@@ -136,7 +79,6 @@ function TransactionTable({ transactions, onEdit, onDelete, dark }) {
           </table>
         </div>
 
-        {/* 🔹 Empty State */}
         {transactions.length === 0 && (
           <p className="text-center mt-4 text-gray-400">
             No transactions found
