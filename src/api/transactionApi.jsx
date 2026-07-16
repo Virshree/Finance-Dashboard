@@ -1,5 +1,6 @@
-const API_URL="http://localhost:3000/transactions";
+// const API_URL="http://localhost:3000/transactions";
 
+const API_URL = "https://finance-dashboard-api.onrender.com/transactions";
 export const getTransactions = async()=>{
     const response= await fetch(API_URL);
     return response.json();
