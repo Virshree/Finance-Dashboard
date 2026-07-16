@@ -142,14 +142,14 @@ function AddTransactionModal({ isOpen, onClose, onSave, editData }) {
         <div className="flex gap-2 mt-3">
           <button
             onClick={handleSubmit}
-            className="bg-green-600 text-white rounded-xl p-2 flex-1"
+            className="bg-green-600 text-white rounded-xl p-2 flex-1 cursor-pointer"
           >
             Save
           </button>
 
           <button
             onClick={onClose}
-            className="bg-gray-300 rounded-xl p-2 flex-1"
+            className="bg-gray-300 rounded-xl p-2 flex-1 cursor-pointer"
           >
             Cancel
           </button>

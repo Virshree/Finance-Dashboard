@@ -1,26 +1,35 @@
-// const API_URL="http://localhost:3000/transactions";
+import { supabase } from "../supabase";
 
-const API_URL = "https://finance-dashboard-api.onrender.com/transactions";
-export const getTransactions = async()=>{
-    const response= await fetch(API_URL);
-    return response.json();
+// Get all transactions
+export const getTransactions = async () => {
+  const { data, error } = await supabase
+    .from("transactions")
+    .select("*")
+    .order("id", { ascending: true });
 
-}
+  if (error) throw error;
 
-export const addTransaction=async(transaction)=>{
-    const response=await fetch(API_URL,{
-        method:"POST",
-        headers:{
-            "Content-type":"application/json",
-        },
-        body:JSON.stringify(transaction),
-    });
-    return response.json();
-}
+  return data;
+};
 
-export const deleteTransaction=async(id)=>{
-    await fetch (`${API_URL}/${id}`,{
-        method:"DELETE"
-    });
+// Add transaction
+export const addTransaction = async (transaction) => {
+  const { data, error } = await supabase
+    .from("transactions")
+    .insert([transaction])
+    .select();
 
+  if (error) throw error;
+
+  return data[0];
+};
+
+// Delete transaction
+export const deleteTransaction = async (id) => {
+  const { error } = await supabase
+    .from("transactions")
+    .delete()
+    .eq("id", id);
+
+  if (error) throw error;
 };

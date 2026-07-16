@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "start": "json-server --host 0.0.0.0 --port $PORT db.json",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
@@ -14,6 +15,7 @@
     "@emotion/styled": "^11.14.1",
     "@mui/material": "^7.3.9",
     "@mui/x-data-grid": "^8.28.2",
+    "@supabase/supabase-js": "^2.110.6",
     "@tailwindcss/vite": "^4.2.2",
     "framer-motion": "^12.38.0",
     "json-server": "^1.0.0-beta.15",
